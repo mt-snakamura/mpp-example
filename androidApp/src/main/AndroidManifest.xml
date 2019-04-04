@@ -3,7 +3,7 @@
     package="jp.moneytree">
 
     <application
-        android:name=".MyApplication"
+        android:name=".MainApplication"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,MissingApplicationIcon">
 
