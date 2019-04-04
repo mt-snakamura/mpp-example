@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import greeting
+import MTLib
 
 class ViewController: UIViewController {
 

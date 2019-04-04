@@ -1,9 +1,9 @@
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.multiplatform'
+    id 'kotlin-multiplatform'
 }
 
-group = 'org.greeting'
+group = 'jp.moneytree'
 version = 1.0
 
 android {
@@ -37,7 +37,7 @@ dependencies {
 
 kotlin {
     targets {
-        fromPreset(presets.android, 'androidLib')
+        fromPreset(presets.android, 'android')
 
         def buildForDevice = project.findProperty("device")?.toBoolean() ?: false
         def iosPreset = (buildForDevice) ? presets.iosArm64 : presets.iosX64
@@ -78,8 +78,8 @@ task copyFramework {
         copy {
             from srcFile.parent
             into targetDir
-            include 'greeting.framework/**'
-            include 'greeting.framework.dSYM'
+            include 'MTLib.framework/**'
+            include 'MTLib.framework.dSYM'
         }
     }
 }
@@ -89,7 +89,6 @@ task iosTest {
     dependsOn 'linkTestDebugExecutableIos'
     group = JavaBasePlugin.VERIFICATION_GROUP
     description = "Runs tests for target 'ios' on an iOS simulator"
-
     doLast {
         def binary = kotlin.targets.ios.binaries.getExecutable('test', 'DEBUG').outputFile
         exec {

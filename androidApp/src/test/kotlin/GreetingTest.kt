@@ -1,6 +1,5 @@
-package org.konan.multiplatform
+package jp.moneytree
 
-import org.greeting.Greeting
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,6 +13,5 @@ class GreetingTest {
         assertEquals(Greeting().greeting(), "Hello, Android")
     }
 }
-
 // Note that common tests for calculator (i.e. `CalculatorTest`) can be run from `greeting`
 // with `test` Gradle task.
