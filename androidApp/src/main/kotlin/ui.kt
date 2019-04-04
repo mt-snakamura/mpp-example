@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        rootLayout = findViewById(R.id.main_view) as LinearLayout
+        rootLayout = findViewById(R.id.main_view)
         rootLayout.removeAllViews()
 
         val product = Factory.create(mapOf("user" to "JetBrains"))
