@@ -37,6 +37,7 @@ dependencies {
 
 kotlin {
     targets {
+        fromPreset(presets.js, 'js')
         fromPreset(presets.android, 'android')
 
         def buildForDevice = project.findProperty("device")?.toBoolean() ?: false
@@ -51,8 +52,6 @@ kotlin {
                 }
             }
         }
-
-
     }
 
     sourceSets {
@@ -65,6 +64,19 @@ kotlin {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test-common'
                 implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+            }
+        }
+        jsMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
+            }
+            compileKotlinJs {
+                kotlinOptions.metaInfo = true
+                kotlinOptions.sourceMap = true
+                kotlinOptions.suppressWarnings = true
+                kotlinOptions.verbose = true
+                kotlinOptions.main = "call"
+                kotlinOptions.moduleKind = "umd"
             }
         }
     }

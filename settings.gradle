@@ -25,3 +25,4 @@ enableFeaturePreview('GRADLE_METADATA')
 
 include ':MTLib'
 include ':androidApp'
+include ':webApp'

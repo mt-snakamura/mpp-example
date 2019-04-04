@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.45"
     }
 }
 
@@ -19,5 +20,19 @@ allprojects {
         jcenter()
         maven { url 'https://dl.bintray.com/kotlin/kotlin-dev' }
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    }
+
+    // TODO remove once https://github.com/Kotlin/kotlin-frontend-plugin/issues/141 is fixed
+    plugins.whenPluginAdded { plugin ->
+        if (plugin.class.name == 'org.jetbrains.kotlin.gradle.frontend.FrontendPlugin') {
+            def fixTask = tasks.register('webpack-config-fix') {
+                it.doLast { file('webpack.config.d').mkdir() }
+            }
+            afterEvaluate {
+                tasks.named('webpack-config').configure {
+                    it.dependsOn(fixTask)
+                }
+            }
+        }
     }
 }
