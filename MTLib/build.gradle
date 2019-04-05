@@ -44,7 +44,7 @@ kotlin {
         def iosPreset = (buildForDevice) ? presets.iosArm64 : presets.iosX64
         fromPreset(iosPreset, 'ios') {
             binaries {
-                framework {
+                framework('MTLib') {
                     // Disable bitcode embedding for the simulator build.
                     if (!buildForDevice) {
                         embedBitcode("disable")
@@ -82,21 +82,29 @@ kotlin {
     }
 }
 
-task copyFramework {
-    def buildType = project.findProperty("kotlin.build.type") ?: "DEBUG"
-    dependsOn "link${buildType.toLowerCase().capitalize()}FrameworkIos"
+configurations {
+    compileClasspath
+}
+
+task packForXCode(type: Sync) {
+    final File frameworkDir = new File(buildDir, "xcode-frameworks")
+    final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
+    final def framework = kotlin.targets.ios.binaries.getFramework("MTLib", mode)
+
+    inputs.property "mode", mode
+    dependsOn framework.linkTask
+
+    from { framework.outputFile.parentFile }
+    into frameworkDir
 
     doLast {
-        def srcFile = kotlin.targets.ios.binaries.getFramework(buildType).outputFile
-        def targetDir = getProperty("configuration.build.dir")
-        copy {
-            from srcFile.parent
-            into targetDir
-            include 'MTLib.framework/**'
-            include 'MTLib.framework.dSYM'
+        new File(frameworkDir, 'gradlew').with {
+            text = "#!/bin/bash\nexport 'JAVA_HOME=${System.getProperty("java.home")}'\ncd '${rootProject.rootDir}'\n./gradlew \$@\n"
+            setExecutable(true)
         }
     }
 }
+tasks.build.dependsOn packForXCode
 
 task iosTest {
     def device = project.findProperty("iosDevice")?.toString() ?: "iPhone 8"

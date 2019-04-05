@@ -30,32 +30,32 @@ class MainActivity : AppCompatActivity() {
         this.context,
         (layoutManager as LinearLayoutManager).orientation)
       )
-      adapter = EmployeeAdapter(EmployeeLoader.loadEmployees())
+      adapter = EraAdapter(EraLoader.loadEras())
     }
   }
 }
 
-class EmployeeAdapter(
-  private val employees: List<Employee>
-) : RecyclerView.Adapter<EmployeeAdapter.ViewHolder>() {
+class EraAdapter(
+  private val eras: List<Era>
+) : RecyclerView.Adapter<EraAdapter.ViewHolder>() {
 
-  override fun getItemCount(): Int = employees.size
+  override fun getItemCount(): Int = eras.size
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
     LayoutInflater
       .from(parent.context)
-      .inflate(R.layout.row_employee, parent, false)
+      .inflate(R.layout.row_era, parent, false)
       .let { ViewHolder(it) }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     holder.apply {
-      nameView.text = employees[position].name
-      locationView.text = employees[position].office
+      nameView.text = eras[position].name
+      nameKanjiView.text = eras[position].nameKanji
     }
   }
 
   class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val nameView = view.findViewById<TextView>(R.id.name)
-    val locationView = view.findViewById<TextView>(R.id.location)
+    val nameKanjiView = view.findViewById<TextView>(R.id.nameKanji)
   }
 }

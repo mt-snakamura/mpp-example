@@ -16,8 +16,8 @@ fun main() {
 }
 
 fun start(event: Event) {
-  EmployeeLoader.loadEmployees().forEach {
+  EraLoader.loadEras().forEach {
     document.getElementById("console")
-      ?.innerHTML += "\n${it.name} - ${it.office}"
+      ?.innerHTML += "\n${it.name} - ${it.nameKanji}"
   }
 }

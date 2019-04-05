@@ -12,7 +12,7 @@ import MTLib
 class ViewController: UIViewController {
 
     private lazy var dataSource: UITableViewDataSource = {
-        return EmployeeDataSource(data: EmployeeLoader.Companion().loadEmployees())
+        return EraDataSource(data: EraLoader.Companion().loadEras())
     }()
 
     private lazy var tableView: UITableView = {
@@ -36,23 +36,23 @@ class ViewController: UIViewController {
     }
 }
 
-class EmployeeDataSource: NSObject, UITableViewDataSource {
+class EraDataSource: NSObject, UITableViewDataSource {
 
-    private let employees: [Employee]
+    private let eras: [Era]
 
-    init(data: [Employee]) {
-        self.employees = data
+    init(data: [Era]) {
+        self.eras = data
         super.init()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return employees.count
+        return eras.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.textLabel?.text = employees[indexPath.row].name
-        cell.detailTextLabel?.text = employees[indexPath.row].office
+        cell.textLabel?.text = eras[indexPath.row].name
+        cell.detailTextLabel?.text = eras[indexPath.row].nameKanji
         return cell
     }
 }
