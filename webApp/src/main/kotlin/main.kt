@@ -15,9 +15,9 @@ fun main() {
   })
 }
 
-fun start(ev: Event) {
-  println("$ev")
+fun start(event: Event) {
   EmployeeLoader.loadEmployees().forEach {
-    println("${it.name} - ${it.office}")
+    document.getElementById("console")
+      ?.innerHTML += "\n${it.name} - ${it.office}"
   }
 }
